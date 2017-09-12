@@ -23,3 +23,14 @@ class SoftMax(object):
     def optimize(self):
         optimizer = tf.train.GradientDescentOptimizer(self.learning_rate)
         return optimizer.minimize(self.loss)
+
+    def build_graph(self):
+        self.inference()
+        self.loss()
+        return self.optimize()
+
+    def validate(self):
+        correct_prediction = tf.equal(tf.argmax(self.predictions, 1),
+                                      tf.argmax(self.labels, 1))
+
+        return tf.reduce_mean(tf.cast(correct_prediction, tf.float32))

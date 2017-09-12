@@ -10,25 +10,32 @@ def main():
 
     mnist = input_data.read_data_sets('MNIST_data', one_hot=True)
 
+    # Initialise model
     model = SoftMax(learning_rate=0.01)
-    model.inference()
-    model.loss()
-    train_step = model.optimize()
+    train_step = model.build_graph()
 
+    # Initialise Tensorflow session
     sess = tf.InteractiveSession()
     tf.global_variables_initializer().run()
+
+    # Run training epochs
     for _ in range(1000):
         batch_xs, batch_ys = mnist.train.next_batch(100)
-        sess.run(train_step, feed_dict={model.input: batch_xs,
-                                        model.labels: batch_ys})
+        feed_dict = {
+            model.input: batch_xs,
+            model.labels: batch_ys
+        }
+        sess.run(train_step, feed_dict=feed_dict)
 
-    correct_prediction = tf.equal(tf.argmax(model.predictions, 1),
-                                  tf.argmax(model.labels, 1))
+    # Validate the model
+    feed_dict = {
+        model.input: mnist.test.images,
+        model.labels: mnist.test.labels
+    }
 
-    accuracy = tf.reduce_mean(tf.cast(correct_prediction, tf.float32))
+    result = sess.run(model.validate(), feed_dict=feed_dict)
 
-    print(sess.run(accuracy, feed_dict={model.input: mnist.test.images,
-                                        model.labels: mnist.test.labels}))
+    print('Accuracy: {0:.5f}'.format(result))
 
 
 if __name__ == '__main__':
