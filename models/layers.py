@@ -46,6 +46,3 @@ def output_layer(layer_input):
 
         predictions = tf.matmul(layer_input, W_fc2) + b_fc2
         return predictions
-
-
-

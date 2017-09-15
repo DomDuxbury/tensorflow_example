@@ -28,9 +28,10 @@ class ConvNN(object):
         self.predictions = output_layer(dropped)
 
     def loss(self):
-        cross_entropy = tf.nn.softmax_cross_entropy_with_logits(
-                labels=self.labels, logits=self.predictions)
-        self.loss = tf.reduce_mean(cross_entropy)
+        with tf.name_scope("loss"):
+            cross_entropy = tf.nn.softmax_cross_entropy_with_logits(
+                    labels=self.labels, logits=self.predictions)
+            self.loss = tf.reduce_mean(cross_entropy)
 
     def optimize(self):
         optimizer = tf.train.GradientDescentOptimizer(self.learning_rate)
