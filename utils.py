@@ -1,8 +1,13 @@
 import tensorflow as tf
+from datetime import datetime
 
 
 def train_model(sess, model, train_data):
+
     train_step = model.build_graph()
+
+    init_logging()
+
     tf.global_variables_initializer().run()
 
     # Run training epochs
@@ -24,3 +29,11 @@ def evaluate_model(sess, model, test_data):
 
     result = sess.run(model.validate(), feed_dict=feed_dict)
     print('Accuracy: {0:.5f}'.format(result))
+
+
+def init_logging():
+    now = datetime.utcnow().strftime('%Y%m%d%H%M%S')
+    root_logdir = 'tf_logs'
+    logdir = '{}/run-{}/'.format(root_logdir, now)
+
+    file_writer = tf.summary.FileWriter(logdir, tf.get_default_graph())
