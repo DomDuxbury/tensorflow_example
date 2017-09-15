@@ -2,7 +2,7 @@ import tensorflow as tf
 from datetime import datetime
 
 
-def train_model(sess, model, train_data):
+def train_model(sess, model, train_data, n_batches=10000, batch_size=100):
 
     train_step = model.build_graph()
 
@@ -11,17 +11,17 @@ def train_model(sess, model, train_data):
     tf.global_variables_initializer().run()
 
     # Run training epochs
-    for batch_index in range(100000):
-        batch_xs, batch_ys = train_data.next_batch(100)
+    for batch_index in range(n_batches):
+        batch_xs, batch_ys = train_data.next_batch(batch_size)
 
         feed_dict = {
             model.input: batch_xs,
             model.labels: batch_ys
         }
 
-        if batch_index % 10 == 0:
+        if batch_index % 100 == 0:
             summary_str = loss_summary.eval(feed_dict=feed_dict)
-            step = batch_index
+            step = batch_index * batch_size
             file_writer.add_summary(summary_str, step)
 
         sess.run(train_step, feed_dict=feed_dict)
