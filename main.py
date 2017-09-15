@@ -19,7 +19,7 @@ def main():
     sess = tf.InteractiveSession()
 
     # Train the model
-    utils.train_model(sess, model, mnist.train, n_batches=10000)
+    utils.train_model(sess, model, mnist.train, n_batches=100)
 
     # Validate the model
     utils.evaluate_model(sess, model, mnist.test)
