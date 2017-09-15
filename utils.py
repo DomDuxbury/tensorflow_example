@@ -16,7 +16,8 @@ def train_model(sess, model, train_data, n_batches=10000, batch_size=100):
 
         feed_dict = {
             model.input: batch_xs,
-            model.labels: batch_ys
+            model.labels: batch_ys,
+            model.keep_prob: 0.5
         }
 
         if batch_index % 100 == 0:
@@ -31,7 +32,8 @@ def evaluate_model(sess, model, test_data):
     # Validate the model
     feed_dict = {
         model.input: test_data.images,
-        model.labels: test_data.labels
+        model.labels: test_data.labels,
+        model.keep_prob: 1
     }
 
     result = sess.run(model.validate(), feed_dict=feed_dict)
