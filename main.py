@@ -13,7 +13,7 @@ def main():
     mnist = input_data.read_data_sets('MNIST_data', one_hot=True)
 
     # Initialise model
-    model = SoftMax(learning_rate=0.5)
+    model = SoftMax(learning_rate=0.01)
 
     # Initialise Tensorflow session
     sess = tf.InteractiveSession()
