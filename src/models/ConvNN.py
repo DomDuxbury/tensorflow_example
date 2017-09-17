@@ -3,7 +3,7 @@ from models.layers import conv_layer, output_layer, dense_layer
 
 
 class ConvNN(object):
-    def __init__(self, learning_rate=0.05):
+    def __init__(self, learning_rate=1e-4):
         """ init the model with hyper-parameters etc """
         self.learning_rate = learning_rate
 
@@ -34,7 +34,7 @@ class ConvNN(object):
             self.loss = tf.reduce_mean(cross_entropy)
 
     def optimize(self):
-        optimizer = tf.train.GradientDescentOptimizer(self.learning_rate)
+        optimizer = tf.train.AdamOptimizer(self.learning_rate)
         return optimizer.minimize(self.loss)
 
     def build_graph(self):

@@ -13,13 +13,13 @@ def main():
     mnist = input_data.read_data_sets('MNIST_data', one_hot=True)
 
     # Initialise model
-    model = ConvNN(learning_rate=0.01)
+    model = ConvNN(learning_rate=1e-4)
 
     # Initialise Tensorflow session
     sess = tf.InteractiveSession()
 
     # Train the model
-    utils.train_model(sess, model, mnist.train, n_batches=100)
+    utils.train_model(sess, model, mnist.train, n_batches=10000)
 
     # Validate the model
     utils.evaluate_model(sess, model, mnist.test)
